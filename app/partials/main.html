@@ -4,15 +4,12 @@
   <tr>
     <th>Delete</th>
     <th>Update</th>
-    <th>index</th>
+    <th> </th>
     <th>Name</th>
     <th>Description</th>
     <th>Concentration</th>
   </tr>
-</table>
-<div ng-repeat="sample in samples | orderBy:'name' | orderBy:'description'">
-<table>
-  <tr>
+  <tr ng-repeat="sample in samples | orderBy:'name' | orderBy:'description'">
       <td> <button ng-click="delete(sample)">delete</button> </td>
       <td> <button ng-click="update(sample)">update</button> </td>
       <td> {{ $index + 1 }}. </td>
@@ -21,5 +18,4 @@
       <td> {{ sample.concentration }}</td>
     </tr>
 </table>
-</div>
 
