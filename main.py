@@ -5,14 +5,14 @@ import time
 import model
 
 
-def AsDict(guest):
-  return {'id': guest.key.id(), 'first': guest.first, 'last': guest.last}
+def AsDict(sample):
+  return {'id': sample.key.id(), 'name': sample.name, 'description': sample.description, 'concentration': sample.concentration}
 
 
 class RestHandler(webapp2.RequestHandler):
 
   def dispatch(self):
-    #time.sleep(1)
+    time.sleep(1)
     super(RestHandler, self).dispatch()
 
 
@@ -24,8 +24,8 @@ class RestHandler(webapp2.RequestHandler):
 class QueryHandler(RestHandler):
 
   def get(self):
-    guests = model.AllGuests()
-    r = [ AsDict(guest) for guest in guests ]
+    samples = model.AllSamples()
+    r = [ AsDict(sample) for sample in samples ]
     self.SendJson(r)
 
 
@@ -33,8 +33,8 @@ class UpdateHandler(RestHandler):
 
   def post(self):
     r = json.loads(self.request.body)
-    guest = model.UpdateGuest(r['id'], r['first'], r['last'])
-    r = AsDict(guest)
+    sample = model.UpdateSample(r['id'], r['name'], r['description'], r['concentration'])
+    r = AsDict(sample)
     self.SendJson(r)
 
 
@@ -42,8 +42,8 @@ class InsertHandler(RestHandler):
 
   def post(self):
     r = json.loads(self.request.body)
-    guest = model.InsertGuest(r['first'], r['last'])
-    r = AsDict(guest)
+    sample = model.InsertSample(r['name'], r['description'], r['concentration'])
+    r = AsDict(sample)
     self.SendJson(r)
 
 
@@ -51,7 +51,7 @@ class DeleteHandler(RestHandler):
 
   def post(self):
     r = json.loads(self.request.body)
-    model.DeleteGuest(r['id'])
+    model.DeleteSample(r['id'])
 
 
 APP = webapp2.WSGIApplication([
@@ -60,5 +60,3 @@ APP = webapp2.WSGIApplication([
     ('/rest/delete', DeleteHandler),
     ('/rest/update', UpdateHandler),
 ], debug=True)
-
-
