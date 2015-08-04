@@ -1,9 +1,11 @@
 ## App Engine AngularJS "Hello World" Python
+## Modified to use as a LabSample CRUD system
 
 A simple [AngularJS](http://angularjs.org/) CRUD application
 for [Google App Engine](https://appengine.google.com/).
 
 Author: Fred Sauer <fredsa@google.com>
+Lab Sample Contributor: Richard Trager <richard@bigdatarich.com>
 
 
 ## Project setup

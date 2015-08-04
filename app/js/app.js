@@ -16,12 +16,12 @@ App.factory('myHttpInterceptor', function($rootScope, $q) {
   };
 });
 
-App.factory('guestService', function($rootScope, $http, $q, $log) {
+App.factory('sampleService', function($rootScope, $http, $q, $log) {
   $rootScope.status = 'Retrieving data...';
   var deferred = $q.defer();
   $http.get('rest/query')
   .success(function(data, status, headers, config) {
-    $rootScope.guests = data;
+    $rootScope.samples = data;
     deferred.resolve();
     $rootScope.status = '';
   });
@@ -32,7 +32,7 @@ App.config(function($routeProvider) {
   $routeProvider.when('/', {
     controller : 'MainCtrl',
     templateUrl: '/partials/main.html',
-    resolve    : { 'guestService': 'guestService' },
+    resolve    : { 'sampleService': 'sampleService' },
   });
   $routeProvider.when('/invite', {
     controller : 'InsertCtrl',
@@ -41,7 +41,7 @@ App.config(function($routeProvider) {
   $routeProvider.when('/update/:id', {
     controller : 'UpdateCtrl',
     templateUrl: '/partials/update.html',
-    resolve    : { 'guestService': 'guestService' },
+    resolve    : { 'sampleService': 'sampleService' },
   });
   $routeProvider.otherwise({
     redirectTo : '/'
@@ -58,17 +58,17 @@ App.controller('MainCtrl', function($scope, $rootScope, $log, $http, $routeParam
     $location.path('/invite');
   };
 
-  $scope.update = function(guest) {
-    $location.path('/update/' + guest.id);
+  $scope.update = function(sample) {
+    $location.path('/update/' + sample.id);
   };
 
-  $scope.delete = function(guest) {
-    $rootScope.status = 'Deleting guest ' + guest.id + '...';
-    $http.post('/rest/delete', {'id': guest.id})
+  $scope.delete = function(sample) {
+    $rootScope.status = 'Deleting sample ' + sample.id + '...';
+    $http.post('/rest/delete', {'id': sample.id})
     .success(function(data, status, headers, config) {
-      for (var i=0; i<$rootScope.guests.length; i++) {
-        if ($rootScope.guests[i].id == guest.id) {
-          $rootScope.guests.splice(i, 1);
+      for (var i=0; i<$rootScope.samples.length; i++) {
+        if ($rootScope.samples[i].id == sample.id) {
+          $rootScope.samples.splice(i, 1);
           break;
         }
       }
@@ -81,14 +81,15 @@ App.controller('MainCtrl', function($scope, $rootScope, $log, $http, $routeParam
 App.controller('InsertCtrl', function($scope, $rootScope, $log, $http, $routeParams, $location, $route) {
 
   $scope.submitInsert = function() {
-    var guest = {
-      first : $scope.first,
-      last : $scope.last, 
+    var sample = {
+      name : $scope.name,
+      description : $scope.description,
+      concentration : $scope.concentration,
     };
     $rootScope.status = 'Creating...';
-    $http.post('/rest/insert', guest)
+    $http.post('/rest/insert', sample)
     .success(function(data, status, headers, config) {
-      $rootScope.guests.push(data);
+      $rootScope.samples.push(data);
       $rootScope.status = '';
     });
     $location.path('/');
@@ -97,23 +98,23 @@ App.controller('InsertCtrl', function($scope, $rootScope, $log, $http, $routePar
 
 App.controller('UpdateCtrl', function($routeParams, $rootScope, $scope, $log, $http, $location) {
 
-  for (var i=0; i<$rootScope.guests.length; i++) {
-    if ($rootScope.guests[i].id == $routeParams.id) {
-      $scope.guest = angular.copy($rootScope.guests[i]);
+  for (var i=0; i<$rootScope.samples.length; i++) {
+    if ($rootScope.samples[i].id == $routeParams.id) {
+      $scope.sample = angular.copy($rootScope.samples[i]);
     }
   }
 
   $scope.submitUpdate = function() {
     $rootScope.status = 'Updating...';
-    $http.post('/rest/update', $scope.guest)
+    $http.post('/rest/update', $scope.sample)
     .success(function(data, status, headers, config) {
-      for (var i=0; i<$rootScope.guests.length; i++) {
-        if ($rootScope.guests[i].id == $scope.guest.id) {
-          $rootScope.guests.splice(i,1);
+      for (var i=0; i<$rootScope.samples.length; i++) {
+        if ($rootScope.samples[i].id == $scope.sample.id) {
+          $rootScope.samples.splice(i,1);
           break;
         }
       }
-      $rootScope.guests.push(data);
+      $rootScope.samples.push(data);
       $rootScope.status = '';
     });
     $location.path('/');

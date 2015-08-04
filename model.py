@@ -1,26 +1,27 @@
 from google.appengine.ext import ndb
 
-class Guest(ndb.Model):
-  first = ndb.StringProperty()
-  last = ndb.StringProperty()
+class Sample(ndb.Model):
+  name = ndb.StringProperty()
+  description = ndb.StringProperty()
+  concentration = ndb.StringProperty()
 
 
-def AllGuests():
-  return Guest.query()
+def AllSamples():
+  return Sample.query()
 
 
-def UpdateGuest(id, first, last):
-  guest = Guest(id=id, first=first, last=last)
-  guest.put()
-  return guest
+def UpdateSample(id, name, description, concentration):
+  sample = Sample(id=id, name=name, description=description, concentration=concentration)
+  sample.put()
+  return sample
 
 
-def InsertGuest(first, last):
-  guest = Guest(first=first, last=last)
-  guest.put()
-  return guest
+def InsertSample(name, description, concentration):
+  sample = Sample(name=name, description=description, concentration=concentration)
+  sample.put()
+  return sample
 
 
-def DeleteGuest(id):
-  key = ndb.Key(Guest, id)
+def DeleteSample(id):
+  key = ndb.Key(Sample, id)
   key.delete()

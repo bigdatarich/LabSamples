@@ -1,0 +1,7 @@
+<h2>Samples Available in Lab</h2>
+<button ng-click="invite()">Add New Samples</button>
+<div ng-repeat="sample in samples | orderBy:'name' | orderBy:'description'">
+  <button ng-click="delete(sample)">delete</button>
+  <button ng-click="update(sample)">update</button>
+  {{ $index + 1 }}. <b>{{ sample.name }} {{ sample.description }} {{ sample.concentration }}</b>
+</div>

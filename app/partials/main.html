@@ -1,7 +1,25 @@
-<h2>Guest list</h2>
-<button ng-click="invite()">Invite another guest</button>
-<div ng-repeat="guest in guests | orderBy:'last' | orderBy:'first'">
-  <button ng-click="delete(guest)">delete</button>
-  <button ng-click="update(guest)">update</button>
-  {{ $index + 1 }}. <b>{{ guest.first }} {{ guest.last }}</b>
+<h2>Samples Available in Lab v4</h2>
+<button ng-click="invite()">Add New Samples</button>
+<table>
+  <tr>
+    <th>Delete</th>
+    <th>Update</th>
+    <th>index</th>
+    <th>Name</th>
+    <th>Description</th>
+    <th>Concentration</th>
+  </tr>
+</table>
+<div ng-repeat="sample in samples | orderBy:'name' | orderBy:'description'">
+<table>
+  <tr>
+      <td> <button ng-click="delete(sample)">delete</button> </td>
+      <td> <button ng-click="update(sample)">update</button> </td>
+      <td> {{ $index + 1 }}. </td>
+      <td> {{ sample.name }} </td>
+      <td> {{ sample.description }} </td>
+      <td> {{ sample.concentration }}</td>
+    </tr>
+</table>
 </div>
+
